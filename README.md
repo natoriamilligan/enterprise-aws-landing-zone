@@ -1,2 +1,2 @@
-# enterprise-aws-landing-zone
-Diagrams and explanations for an enterprise landing zone built on AWS complete with multi-accounts, network topology, security, identity models, logging, monitoring, and governance based on AWS best practices.
+# Enterprise AWS Landing Zone
+A production-inspired reference architecture demonstrating how an enterprise AWS platform can be designed. This project includes diagrams and architectural decisions of proper governance, networking, identity and access management, security, logging, and monitoring flows commonly found in enterprise AWS environments.
