@@ -18,9 +18,9 @@ This OU contains accounts that are used to store logs from all accounts and secu
 This OU contains accounts used to operate and manage infrastructure.
 - Network Account: Used by teams to manage the network infrastructure.
 - Backup Account: Used to manage and store copies of data across the organization.
-- Monitoring Account: Controls access to each account.
-- Identity Account: Monitors all resources and workloads.
-- Sandbox Account: Used by teams for experimentation purposes.
+- Monitoring Account: Used to monitor workloads and set up metrics for CloudWatch alarms.
+- Identity Account: Used to centralize access management and be the delegated account for IAM Identity Center.
+- Sandbox Account: Used by teams for experimental purposes.
 
 ### Workloads OU
 This OU contains three other OUs (Dev, Test, and Prod) that will hold accounts for each workload. If workloads are closely related and have similar security measures, they can be put into the same account.
