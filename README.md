@@ -50,6 +50,15 @@ S3 gateway endpoints do not use PrivateLink like regular interface endpoints. Ga
 ## Security, Observability, & Audit Architecture
 ![Security Observability & Audit Architecture Diagram](./docs/diagrams/security-observability-audit.png)
 
+This diagram features architecture for security, observability, and audit operations. 
+
+### Threat Detection & Security Operations
+AWS Security Hub gathers findings from Amazon GuardDuty, Amazon Inspector, and IAM Access Analyzer in one place for the entire organization so security teams don’t have to check each service individually. This saves security engineers time, especially if there is a real threat at hand that must be handled immediately. 
+- GuardDuty will continuously monitor CloudTrail and VPC Flow Logs to detect suspicious API calls and network traffic.
+- Amazon Inspector will help identity vulnerability in the ECS container images. Without it, new patches or vulnerable changes to the images could go unnoticed.
+- IAM Access Analyzer will be used to identify when a resource is able to be accessed by an external entity. For a financial institution, one of the highest priorities is keeping client financial information secured, therefore strict access policies should be in place. IAM Access Analyzer will alert on any resource being accessed from somewhere it shouldn't so client information is kept safe.
+- 
+
 ## Access Flow Architecture
 ![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
 
