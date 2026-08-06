@@ -12,7 +12,7 @@ This account is in charge of managing all OUs and accounts. Teams can use this a
 ### Security OU
 This OU contains accounts that are used to store logs from all accounts and secure the entire organization from one place.
 - Log Archive Account: Used to store logs from across all accounts for better organization and visibility.
-- Security Tooling Account: Used to configure security settings/policies, view security alerts, and set up remediations for out-of-compliance permissions across the entire organization.
+- Security Tooling Account: Used to configure security settings/policies, view security alerts, and set up remediations for noncompliant permissions across the entire organization.
   
 ### Infrastructure OU
 This OU contains accounts used to operate and manage infrastructure.
@@ -54,10 +54,14 @@ This diagram features architecture for security, observability, and audit operat
 
 ### Threat Detection & Security Operations
 AWS Security Hub gathers findings from Amazon GuardDuty, Amazon Inspector, and IAM Access Analyzer in one place for the entire organization so security teams don’t have to check each service individually. This saves security engineers time, especially if there is a real threat at hand that must be handled immediately. 
-- GuardDuty will continuously monitor CloudTrail and VPC Flow Logs to detect suspicious API calls and network traffic.
+- Amazon GuardDuty will continuously monitor CloudTrail and VPC Flow Logs to detect suspicious API calls and network traffic.
 - Amazon Inspector will help identity vulnerability in the ECS container images. Without it, new patches or vulnerable changes to the images could go unnoticed.
 - IAM Access Analyzer will be used to identify when a resource is able to be accessed by an external entity. For a financial institution, one of the highest priorities is keeping client financial information secured, therefore strict access policies should be in place. IAM Access Analyzer will alert on any resource being accessed from somewhere it shouldn't so client information is kept safe.
-- 
+- AWS Config will document the before and after state of changes made to resources and determine if they are in compliance or not. Changes to resources can be made in a short amount of time AWS Config coupled with Amazon EventBridge will help security teams fix problems quickly and then further investigate at a later time.
+- Amazon EventBridge will help with next steps for remediation for noncompliant resources and filter what notifications should be sent to SNS to alert the appropriate teams.
+- AWS Systems Manager (Automation) will perform the remediation for noncompliant resources.
+- SNS will send out notifications to all parities that need to be alerted about noncompliant resources or suspicious activity happening in the organization.
+
 
 ## Access Flow Architecture
 ![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
