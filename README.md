@@ -64,5 +64,19 @@ All security related logs are stored in a single S3 bucket for forensic investig
 ## Access Flow Architecture
 ![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
 
-This diagram shows three examples of how AWS users will gain access to AWS resources and services. Users will first sign into their company's external identity provider using SSO which will connect to IAM Identity Center through SAML 2.0 assertion. From there, users will have the choice of which pre-assigned roles they will assume for the accounts they have access to. Users can only select one role at a time which will set the boundaries for what they can do in that particular account. Each user will have one set of personal credentials instead of sharing several credentials for each account. This design streamlines the process for modifying, assigning, and removing permission sets and makes the onboarding and offboarding process more secure. Additionally, with separate credentials, administrators will be able to monitor exactly who is accessing AWS at all times. IAM Identity Center will be the centralized place for managing access for the entire organization. Only a select view of trusted individuals will have access to IAM Identity Center for tightened security across the organization.
+This diagram shows three examples of how AWS users will gain access to AWS resources and services. Users will first sign into their company's external identity provider using SSO which will connect to IAM Identity Center through SAML 2.0 assertion. From there, users will have the choice of which pre-assigned roles they will assume for the accounts they have access to. Users can only select one role at a time which will set the boundaries for what they can do in that particular account. Each user will have one set of personal credentials instead of sharing several credentials for each account. 
 
+This design streamlines the process for modifying, assigning, and removing permission sets and makes the onboarding and offboarding process more secure. Additionally, with separate credentials, administrators will be able to monitor exactly who is accessing AWS at all times. IAM Identity Center will be the centralized place for managing access for the entire organization. Only a select view of trusted individuals will have access to IAM Identity Center for tightened security across the organization.
+
+## Current Implementation Status
+
+|Component| Status|
+|---|---|
+| AWS Organization design | Complete |
+| Network design | Complete |
+| Security, Observability & Audit design | Complete |
+| Access flow design | Complete |
+| Terraform modules | In progress |
+| Detailed Architecture Documentation | In progress |
+| PrivateLink validation | Planned |
+| CI/CD pipeline | Planned |
