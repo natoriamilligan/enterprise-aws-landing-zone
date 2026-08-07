@@ -7,7 +7,7 @@ This project presents a secure, multi-account AWS landing zone for a financial e
 I implemented AWS Organizations to create a multi-account setup and provide centralized management of all accounts. Organizational Units are used to further separate accounts that share similar security or resource needs. Enterprises consist of several teams, workloads, and business operations so it is important to isolate these entities using different accounts. With AWS Organizations, you can attach SCPs to OUs to establish the maximum available permissions for each account under them instead of redundantly attaching SCPs to individual accounts that share similar security needs. Attaching SCPs to OUs also decreases the number of policies you would have to modify and provides easier onboarding for new accounts.
 
 ### Management Account
-This account is in charge of managing all OUs and accounts. Teams can use this account for centralized governance and billing for the entire organization.
+This account is in charge of managing all OUs and accounts. Administrators will use this account for centralized governance and billing for the entire organization.
 
 ### Security OU
 This OU contains accounts that are used to store logs from all accounts and secure the entire organization from one place.
@@ -64,4 +64,5 @@ All security related logs are stored in a single S3 bucket for forensic investig
 ## Access Flow Architecture
 ![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
 
+This diagram shows three examples of how AWS users will gain access to AWS resources and services. Users will first sign into their company's external identity provider using SSO which will connect to IAM Identity Center through SAML 2.0 assertion. From there, users will have the choice of which pre-assigned roles they will assume for the accounts they have access to. Users can only select one role at a time which will set the boundaries for what they can do in that particular account. Each user will have one set of personal credentials instead of sharing several credentials for each account. This design streamlines the process for modifying, assigning, and removing permission sets and makes the onboarding and offboarding process more secure. Additionally, with separate credentials, administrators will be able to monitor exactly who is accessing AWS at all times. IAM Identity Center will be the centralized place for managing access for the entire organization. Only a select view of trusted individuals will have access to IAM Identity Center for tightened security across the organization.
 
