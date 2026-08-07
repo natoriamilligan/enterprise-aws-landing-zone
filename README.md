@@ -53,15 +53,7 @@ S3 gateway endpoints do not use PrivateLink like regular interface endpoints. Ga
 This diagram features architecture for security, observability, and audit operations. 
 
 ### Threat Detection & Security Operations
-This diagram represents how threats for the entire organization are detected and remediated. AWS Security Hub gathers findings from Amazon GuardDuty, Amazon Inspector, and IAM Access Analyzer in one place for the entire organization so security teams don’t have to check each service individually. This saves security engineers time, especially if there is a real threat at hand that must be handled immediately. If needed, SecurityHub will send these f
-- Amazon GuardDuty will continuously monitor CloudTrail and VPC Flow Logs to detect suspicious API calls and network traffic.
-- Amazon Inspector will help identity vulnerability in the ECS container images. Without it, new patches or vulnerable changes to the images could go unnoticed.
-- IAM Access Analyzer will be used to identify when a resource is able to be accessed by an external entity. For a financial institution, one of the highest priorities is keeping client financial information secured, therefore strict access policies should be in place. IAM Access Analyzer will alert on any resource being accessed from somewhere it shouldn't so client information is kept safe.
-- AWS Config will document the before and after state of changes made to resources and determine if they are in compliance or not. Changes to resources can be made in a short amount of time AWS Config coupled with Amazon EventBridge will help security teams fix problems quickly and then further investigate at a later time.
-- Amazon EventBridge will help with next steps for remediation for noncompliant resources and filter what notifications should be sent to SNS to alert the appropriate teams.
-- AWS Systems Manager (Automation) will perform the remediation for noncompliant resources.
-- SNS will send out notifications to all parities that need to be alerted about noncompliant resources or suspicious activity happening in the organization.
-
+This diagram represents how threats for the entire organization are detected and remediated. AWS Security Hub gathers findings from Amazon GuardDuty, Amazon Inspector, and IAM Access Analyzer in one place for the entire organization so security teams don’t have to check each service individually. If needed, AWS Config and AWS Security Hub will send findings to Amazon EventBridge to filter which resources need to be remediated with AWS Systems Manager and/or which findings should be sent to Amazon SNS for teams to be alerted. This design not only alerts teams of suspicious activity but automatically remediates time sensitive security threats that engineers might not be able to handle immediately which improves response times and maximizes security operations. 
 
 ## Access Flow Architecture
 ![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
