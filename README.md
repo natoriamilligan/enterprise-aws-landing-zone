@@ -55,6 +55,9 @@ This diagram features architecture for security, observability, and audit operat
 ### Threat Detection & Security Operations
 This diagram represents how threats for the entire organization are detected and remediated. AWS Security Hub gathers findings from Amazon GuardDuty, Amazon Inspector, and IAM Access Analyzer in one place for the entire organization so security teams don’t have to check each service individually. If needed, AWS Config and AWS Security Hub will send findings to Amazon EventBridge to filter which resources need to be remediated with AWS Systems Manager and/or which findings should be sent to Amazon SNS for teams to be alerted. This design not only alerts teams of suspicious activity but automatically remediates time sensitive security threats that engineers might not be able to handle immediately which improves response times and maximizes security operations. 
 
+### Audit & Compliance Logging
+This organization stores all of its security related logs in a centralized S3 bucket for forensic investigations and archiving. All logs are sent to a single bucket for secure monitoring and control over the access to the bucket. The bucket is only accessible by authorized individuals and any changes to the IAM policies will go through a strict review process and will follow the principal of least privilege. 
+
 ## Access Flow Architecture
 ![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
 
