@@ -80,3 +80,9 @@ This design streamlines the process for modifying, assigning, and removing permi
 | Detailed Architecture Documentation | In progress |
 | PrivateLink validation | Planned |
 | CI/CD pipeline | Planned |
+
+## Contact
+
+Natoria Milligan - natoriamilligan@gmail.com - [LinkedIn](https://www.linkedin.com/in/natoriamilligan)
+
+Project Link: [https://github.com/natoriamilligan/enterprise-aws-landing-zone](https://github.com/natoriamilligan/enterprise-aws-landing-zone)
