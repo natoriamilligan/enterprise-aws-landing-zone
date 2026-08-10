@@ -20,7 +20,7 @@ This account is in charge of managing all OUs and accounts. Administrators will 
 ### Security OU
 This OU contains accounts that are used to store logs from all accounts and secure the entire organization from one place.
 - Log Archive Account: Used to store logs from across all accounts for increased organization and visibility.
-- Security Tooling Account: Used to configure security settings/policies, view security alerts, and set up remediations for noncompliant permissions across the entire organization.
+- Security Tooling Account: Used to configure security settings, view security alerts, and set up remediations for noncompliant permissions across the entire organization.
 
 ### Infrastructure OU
 This OU contains accounts used to operate and manage infrastructure.
@@ -37,9 +37,9 @@ This OU contains three other OUs (Dev, Test, and Prod) that will hold accounts f
 - AWS Organizations is an optimal way to manage and govern several accounts for an environment at this scale in one place and it is free to use. AWS Organizations makes it easy for administrators to create permission boundaries for accounts and OUs using SCPs, streamlining security operations to keep the organization in line with the best security practices. AWS Organizations also includes consolidated billing for all accounts so you can receive one bill which can result in cost savings.
 - Multiple accounts are used to create clear boundaries between different workloads and operations so that resources in each account are only accessed by authorized individuals.
 - Dev, Test, and Prod environments are separated into their own OUs since each of these environments calls for different security measures. For example, generally production workloads will need stricter guardrails than development or test environments. Another design would be to separate the environments into production and non-production OUs, but I did not implement this design because I wanted to create as much separation between the environments as possible to decrease the blast radius in case of an attack.
-
-## Traffic Flow
+- The organization is separated in four OUs which share similar security needs. The security OU holds accounts that are purely for security and audit operations that require strict access and guardrails to secure the organization logs and threat detection settings. 
 
 ## Failure & Resilience Considerations
 
-## Cost Considerations (if needed)
+## Cost Considerations
+- AWS Organizations is free to use and includes consolidated billing.
