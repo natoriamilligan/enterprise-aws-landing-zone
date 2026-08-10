@@ -11,12 +11,12 @@ This account is in charge of managing all OUs and accounts. Administrators will 
 
 ### Security OU
 This OU contains accounts that are used to store logs from all accounts and secure the entire organization from one place.
-- Log Archive Account: Used to store logs from across all accounts for better organization and visibility.
+- Log Archive Account: Used to store logs from across all accounts for increased organization and visibility.
 - Security Tooling Account: Used to configure security settings/policies, view security alerts, and set up remediations for noncompliant permissions across the entire organization.
   
 ### Infrastructure OU
 This OU contains accounts used to operate and manage infrastructure.
-- Network Account: Used by teams to manage the network infrastructure.
+- Network Account: Used to manage the network infrastructure.
 - Backup Account: Used to manage and store copies of data across the organization.
 - Monitoring Account: Used to monitor workloads and set up metrics for CloudWatch alarms.
 - Identity Account: Used to centralize access management and be the delegated account for IAM Identity Center.
