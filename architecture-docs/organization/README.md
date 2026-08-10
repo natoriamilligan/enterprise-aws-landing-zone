@@ -1,6 +1,5 @@
 # Organization Architecture
 
-## Overview
 ![Organization Architecture Diagram](../../docs/diagrams/account-structure.png)
 
 AWS Organizations is used to create a multi-account setup and provide centralized management of all accounts. Organizational Units are used to further separate accounts that share similar security or resource needs. SCPs are attached at the OU level to establish the maximum available permissions for each account under each OU instead of redundantly attaching SCPs to individual accounts that share similar security needs. Attaching SCPs at the OU level decreases the number of policies administrators would have to manage and provides easier onboarding for new accounts.
@@ -35,6 +34,9 @@ This OU contains accounts used to operate and manage infrastructure.
 This OU contains three other OUs (Dev, Test, and Prod) that will hold accounts for each workload. If workloads are closely related and have similar security measures, they can be put into the same account.
 
 ## Decisions & Trade-offs
+- AWS Organizations is an optimal way to manage and govern several accounts for an environment at this scale in one place and it is free to use. AWS Organizations makes it easy for administrators to create permission boundaries for accounts and OUs using SCPs, streamlining security operations to keep the organization in line with the best security practices. AWS Organizations also includes consolidated billing for all accounts so you can receive one bill which can result in cost savings.
+- Multiple accounts are used to create clear boundaries between different workloads and operations so that resources in each account are only accessed by authorized individuals.
+- Dev, Test, and Prod environments are separated into their own OUs since each of these environments calls for different security measures. For example, generally production workloads will need stricter guardrails than development or test environments. Another design would be to separate the environments into production and non-production OUs, but I did not implement this design because I wanted to create as much separation between the environments as possible to decrease the blast radius in case of an attack.
 
 ## Traffic Flow
 
