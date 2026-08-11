@@ -40,6 +40,9 @@ This OU contains three other OUs (Dev, Test, and Prod) that will hold accounts f
 - The organization is separated in four OUs which share similar security needs. The security OU holds accounts that are purely for security and audit operations that require strict access and guardrails to secure the organization logs and threat detection settings. 
 
 ## Failure & Resilience Considerations
+- Having multiple accounts, especially for workloads, minimizes the blast radius in case of an attack. Accounts are isolated by default, so you have to explicitly allow access between accounts for them to be connected.
+- Since the management account has organization level power, management operations are restricted to an isolated account that is rarely accessed to prevent large attacks on the organization. 
+- Separating logs into their own account means that if a workload is compromised, the evidence of the attack will be safely stored in a second place. Attackers will not be able to delete suspicious logs.
 
 ## Cost Considerations
 - AWS Organizations is free to use and includes consolidated billing.
