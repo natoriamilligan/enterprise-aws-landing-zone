@@ -44,7 +44,15 @@ There are several interface endpoints in each VPC so the containers can access A
 - The load balancer health checks monitor which ECS targets are healthy to send traffic to. The load balancers will stop sending traffic to any unhealthy targets.
 - The load balancers and interface endpoints will be deployed across at least two AZs for increased availability.
 - Amazon CloudFront caches content at edge locations around the world. If one server goes down, CloudFront can route requests to other locations.
-- Multi-AZ will be enabled for all database instances to maintain availability in case an AZ goes down or for database maintenence.
+- Multi-AZ will be enabled for all database instances to maintain availability in case an AZ goes down or for database maintenance.
+- Multiple ECS tasks will run for each service in case of failure. Autoscaling should be enabled if the workloads need to respond to spikes in traffic.
+- The front-end files will be stored in Amazon S3 which is highly durable and available storage service.
 
 ## Cost Considerations
 - S3 Gateway endpoints are free of charge.
+- RDS pricing will depend on instance types, storage, and Multi-AZ.
+- There is an additional charge for AWS WAF, however if AWS Shield Advanced is enabled, some WAF fees are waived.
+- ECS Fargate costs will depend on the amount of vCPU, memory, and storage needed for each workload.
+- Load balancers are billed on infrastructure and capacity units.
+- Amazon CloudFront offers several flat-rate pricing options.
+- The S3 bucket where the front-end files are stored will use S3 Standard pricing for frequently accessed data.
