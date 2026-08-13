@@ -5,7 +5,13 @@
 This network diagram illustrates three production workloads that reside in separate accounts and VPCs. The VPCs expose their services using PrivateLink to limit the amount of connectivity between them. All workloads in these diagrams are deployed as Amazon ECS services running on AWS Fargate.
 
 ## Requirements
-
+- All VPCs must be separated.
+- Workloads must be accessed securely by external sources.
+- Workloads must run in containers that are low maintenance.
+- Workloads must be able to scale automatically.
+- Workloads must exist in private subnets.
+- All public facing resources should be properly secured and monitored.
+- Workloads should not access the public internet.
 
 ## Architecture Components
 ### Digital Banking VPC
@@ -19,14 +25,17 @@ This VPC only consists of private subnets. The Digital Banking VPC will need to 
 ### Fraud VPC
 This VPC also consists of private subnets only. The workloads in this VPC are accessed by the workloads in the previous two VPCs. The workloads in the other VPCs will send information such as sign in attempts and transaction data to this VPC so the fraud workloads can investigate any suspicious activity. The NLB again provides an entry point to these workloads.
 
-### Interface/Gateway Endpoints
-I have added several other interface endpoints to each VPC the containers can access AWS services securely using PrivateLink instead of exposing them to the internet. The containers need to send logs to CloudWatch and also pull images from ECR and S3. The interface endpoints will be deployed across two AZs. Deploying two centralized NAT Gateways instead would reduce costs, however the architecture would have to be redesigned to allow connectivity between all VPCs using Transit Gateway. I specifically did not use Transit Gateway because the VPCs do not need broad connectivity with each other. Also, interface endpoints reduce the attack surface for this network. Two NAT gateways deployed in each VPC could also be an option but a very expensive one.
-
-S3 gateway endpoints do not use PrivateLink like regular interface endpoints. Gateway endpoints connect directly to the service and are completely free to use so I made sure to add those where needed.
+### Interface Endpoints
+There are several interface endpoints in each VPC so the containers can access AWS services securely using PrivateLink instead of exposing them to the internet. The containers need to send logs to CloudWatch and also pull images from ECR and S3. 
 
 ## Decisions & Trade-offs
 - ECS Fargate is used for the workloads to minimize operational overhead.
+- Interface endpoints are used instead of NAT Gateways to reduce the attack surface for this network. Deploying two centralized NAT Gateways instead would reduce costs, however the architecture would have to be redesigned to allow connectivity between all VPCs using Transit Gateway. I specifically did not use Transit Gateway because the VPCs do not need broad connectivity with each other. Two NAT gateways deployed in each VPC could also be an option but a very expensive one.
+- S3 Gateway endpoints are used instead of interface endpoints to connect the workloads directly to S3, free of charge.
+- The VPCs are isolated so that if one is compromised, the limited connectivity will reduce the scope of access for attackers.
   
 ## Failure & Resilience Considerations
+- The interface endpoints, application load balancers, and network load balancers will be deployed across two AZs.
 
 ## Cost Considerations
+- S3 Gateway endpoints are free of charge.
