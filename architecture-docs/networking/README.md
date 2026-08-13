@@ -44,6 +44,7 @@ There are several interface endpoints in each VPC so the containers can access A
 - The load balancer health checks monitor which ECS targets are healthy to send traffic to. The load balancers will stop sending traffic to any unhealthy targets.
 - The load balancers and interface endpoints will be deployed across at least two AZs for increased availability.
 - Amazon CloudFront caches content at edge locations around the world. If one server goes down, CloudFront can route requests to other locations.
+- Multi-AZ will be enabled for all database instances to maintain availability in case an AZ goes down or for database maintenence.
 
 ## Cost Considerations
 - S3 Gateway endpoints are free of charge.
