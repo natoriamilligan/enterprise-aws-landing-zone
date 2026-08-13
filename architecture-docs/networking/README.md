@@ -12,6 +12,7 @@ This network diagram illustrates three production workloads that reside in separ
 - Workloads must exist in private subnets.
 - All public facing resources should be properly secured and monitored.
 - Workloads should not access the public internet.
+- IPv4 and IPv6 must be enabled.
 
 ## Architecture Components
 ### Digital Banking VPC
@@ -30,9 +31,11 @@ There are several interface endpoints in each VPC so the containers can access A
 
 ## Decisions & Trade-offs
 - ECS Fargate is used for the workloads to minimize operational overhead.
-- Interface endpoints are used instead of NAT Gateways to reduce the attack surface for this network. Deploying two centralized NAT Gateways instead would reduce costs, however the architecture would have to be redesigned to allow connectivity between all VPCs using Transit Gateway. I specifically did not use Transit Gateway because the VPCs do not need broad connectivity with each other. Two NAT gateways deployed in each VPC could also be an option but a very expensive one.
+- Interface endpoints are used instead of NAT Gateways to reduce the attack surface for this network. PrivateLink exposes only the services needed instead of establishing full network connectivity. Deploying two centralized NAT Gateways instead would reduce costs, however the architecture would have to be redesigned to allow connectivity between all VPCs using Transit Gateway, which would increase costs further. I specifically did not use Transit Gateway because the VPCs do not need broad connectivity with each other. Two NAT gateways deployed in each VPC could also be an option but a very expensive one. Transit Gateway however is a great option for large enterprise environments with hundreds of workloads and on-premise networks. A VPC Peering connection is also not used because it is not scalable and again, the VPCs so not need broad connectivity to each other. 
 - S3 Gateway endpoints are used instead of interface endpoints to connect the workloads directly to S3, free of charge.
-- The VPCs are isolated so that if one is compromised, the limited connectivity will reduce the scope of access for attackers.
+- The VPCs are isolated so that if one is compromised, the limited connectivity will reduce the scope of access for attackers. Fintech environments must prioritize security and separation of duties.
+- All networks will have IPv6 enabled to support future growth.
+- AWS Shield Standard is used in this network for reduced costs; however financial institutions are one of the most targeted entities for DDoS attacks since the websites are highly available and they handle large amounts of transactions every day. I highly recommend AWS Shield Advanced to be enabled in production environments for added DDoS protection.
   
 ## Failure & Resilience Considerations
 - The interface endpoints, application load balancers, and network load balancers will be deployed across two AZs.
