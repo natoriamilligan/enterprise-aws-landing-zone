@@ -35,6 +35,7 @@ All security related logs will be stored in a single S3 bucket for forensic inve
 - AWS GuardDuty, Amazon Inspector, and IAM Access Analyzer will help keep resources secure throughout the organization through continuous monitoring. Without these services, you would have to manually create a threat detection system for all resources which would take a long time for an enterprise. Also, every time a new resource is added or a workload expands, the threat detection system would need to be modified.
 - All security logs are located in a centralized place which strengthens the operations for monitoring and controlling access to the bucket. Scattering the logs across several buckets would introduce additional policies to manage which would increase the chance of policy errors.
 - Amazon Athena is used to query the security log bucket because it requires no infrastructure management and can query S3 buckets easily using SQL.
+  
 ## Failure & Resilience Considerations
 - The S3 log archive bucket can be secured through S3 Object Lock, bucket policies, and versioning. Objects are encrypted by default using SSE-S3 AWS KMS keys can also be used. Only a select few of trusted individuals will have access to the logs in this bucket. Any changes to IAM policies will go through a strict review process and will follow the principal of least privilege.
 - If a resource remediation fails, teams will be notified so they can complete the process immediately.
@@ -45,3 +46,6 @@ All security related logs will be stored in a single S3 bucket for forensic inve
 - Notifications from EventBridge and CloudWatch should be periodically tested in case of a path failure.
 
 ## Cost Considerations
+- S3 Lifecycle policies will transition log archives to the appropriate storage class based on retention standards for the company to save costs.
+- The log archive bucket will be compressed and partitioned appropriately for Amazon Athena to efficiently query to save costs.
+- Security Hub is an added expense that charges based on resources monitored and threat analytics through GuardDuty. The GuardDuty add-on will be used instead of the standalone service.
