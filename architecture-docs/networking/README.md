@@ -1,6 +1,6 @@
 # Network Architecture
 
-![Access Flow Diagram](../../docs/diagrams/networking.png)
+![Access Flow Diagram](../../diagrams/networking.png)
 
 This network diagram illustrates three production workloads that reside in separate accounts and VPCs. The VPCs expose their services using PrivateLink to limit the amount of connectivity between them. All workloads in these diagrams are deployed as Amazon ECS services running on AWS Fargate.
 

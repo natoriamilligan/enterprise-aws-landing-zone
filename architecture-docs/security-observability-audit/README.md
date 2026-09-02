@@ -1,6 +1,6 @@
 # Security, Observability, & Audit Architecture
 
-![Organization Architecture Diagram](../../docs/diagrams/security-observability-audit.png)
+![Organization Architecture Diagram](../../diagrams/security-observability-audit.png)
 
 These diagrams represent how threats are detected and remediated, how containers and supporting resources are monitored for troubleshooting, and how security logs are stored for the entire organization.
 

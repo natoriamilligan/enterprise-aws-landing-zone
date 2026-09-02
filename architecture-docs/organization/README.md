@@ -1,6 +1,6 @@
 # Organization Architecture
 
-![Organization Architecture Diagram](../../docs/diagrams/account-structure.png)
+![Organization Architecture Diagram](../../diagrams/account-structure.png)
 
 AWS Organizations is used to create a multi-account setup and provide centralized management of all accounts. Organizational Units are used to further separate accounts that share similar security or resource needs. SCPs are attached at the OU level to establish the maximum available permissions for each account under each OU instead of redundantly attaching SCPs to individual accounts that share similar security needs. Attaching SCPs at the OU level decreases the number of policies administrators would have to manage and provides easier onboarding for new accounts.
 

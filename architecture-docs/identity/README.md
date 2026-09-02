@@ -1,6 +1,6 @@
 # Access Flow Architecture
 
-![Access Flow Diagram](../../docs/diagrams/access-flow.png)
+![Access Flow Diagram](../../diagrams/access-flow.png)
 User identities are stored in an external identity provider which is connected to AWS IAM Identity Center. Users authenticate through the external identity provider using single sign-on which will then connect to IAM Identity Center for AWS access. Permission sets will be given to groups or individuals for appropriate access to assigned accounts and resources. This design streamlines the process for modifying, assigning, and removing permission sets and makes the onboarding and offboarding process more secure. Additionally, with separate credentials, administrators will be able to monitor exactly who is accessing AWS at all times.
 
 ## Requirements
