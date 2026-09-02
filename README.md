@@ -2,7 +2,7 @@
 This project presents a secure, multi-account AWS landing zone for a financial enterprise environment. This project includes diagrams and architectural decisions of proper governance, networking, identity and access management, security, logging, and monitoring flows commonly found in enterprise AWS environments. This is an architecture-first project currently being implemented with Terraform.
 
 ## Organization Architecture
-![Organization Architecture Diagram](./docs/diagrams/account-structure.png)
+![Organization Architecture Diagram](./diagrams/account-structure.png)
 
 I implemented AWS Organizations to create a multi-account setup and provide centralized management of all accounts. Organizational Units are used to further separate accounts that share similar security or resource needs. Enterprises consist of several teams, workloads, and business operations so it is important to isolate these entities using different accounts. With AWS Organizations, you can attach SCPs to OUs to establish the maximum available permissions for each account under them instead of redundantly attaching SCPs to individual accounts that share similar security needs. Attaching SCPs to OUs also decreases the number of policies you would have to modify and provides easier onboarding for new accounts.
 
@@ -26,7 +26,7 @@ This OU contains accounts used to operate and manage infrastructure.
 This OU contains three other OUs (Dev, Test, and Prod) that will hold accounts for each workload. If workloads are closely related and have similar security measures, they can be put into the same account.
 
 ## Network Architecture
-![Networking Architecture Diagram](./docs/diagrams/networking.png)
+![Networking Architecture Diagram](./diagrams/networking.png)
 
 This network diagram illustrates three production workloads that reside in separate accounts and VPCs to reduce the blast radius in case of an attack and improve security. 
 
@@ -48,7 +48,7 @@ The interface endpoints will be deployed across two AZs. Deploying two centraliz
 S3 gateway endpoints do not use PrivateLink like regular interface endpoints. Gateway endpoints connect directly to the service and are completely free to use so I made sure to add those where needed.
 
 ## Security, Observability, & Audit Architecture
-![Security Observability & Audit Architecture Diagram](./docs/diagrams/security-observability-audit.png)
+![Security Observability & Audit Architecture Diagram](./diagrams/security-observability-audit.png)
 
 This diagram features architectures for security, observability, and audit operations. 
 
@@ -62,7 +62,7 @@ All application containers running in ECS tasks send their logs to Amazon CloudW
 All security related logs are stored in a single S3 bucket for forensic investigations and archiving. Having a centralized place for all logs strengthens the operations for monitoring and controlling access to the bucket. Scattering the logs across several buckets would introduce additional policies to manage which would increase the chance of policy errors. The log archive bucket is only accessible by authorized individuals and any changes to IAM policies will go through a strict review process and will follow the principal of least privilege. Amazon Athena will be used to query and analyze the logs without any infrastructure management. 
 
 ## Access Flow Architecture
-![Access Flow Architecture Diagram](./docs/diagrams/access-flow.png)
+![Access Flow Architecture Diagram](./diagrams/access-flow.png)
 
 This diagram shows three examples of how AWS users will gain access to AWS resources and services. Users will first sign into their company's external identity provider using SSO which will connect to IAM Identity Center through SAML 2.0 assertion. From there, users will have the choice of which pre-assigned roles they will assume for the accounts they have access to. Users can only select one role at a time which will set the boundaries for what they can do in that particular account. Each user will have one set of personal credentials instead of sharing several credentials for each account. 
 
@@ -77,7 +77,7 @@ This design streamlines the process for modifying, assigning, and removing permi
 | Security, Observability & Audit design | Complete |
 | Access flow design | Complete |
 | Terraform modules | In progress |
-| Detailed Architecture Documentation | In progress |
+| Detailed Architecture Documentation | Complete |
 | PrivateLink validation | Planned |
 | CI/CD pipeline | Planned |
 
