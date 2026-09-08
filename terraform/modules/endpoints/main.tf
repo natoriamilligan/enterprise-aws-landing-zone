@@ -45,6 +45,8 @@ resource "aws_vpc_endpoint" "ecr_api" {
   vpc_endpoint_type = "Interface"
   
   private_dns_enabled = true
+
+  policy = data.aws_iam_policy_document.ecr_endpoint_policy.json
 }
 
 resource "aws_vpc_endpoint_security_group_association" "ecr_api" {
@@ -52,12 +54,59 @@ resource "aws_vpc_endpoint_security_group_association" "ecr_api" {
   security_group_id = aws_security_group.endpoints.id
 }
 
-resource "aws_vpc_endpoint_subnet_association" "private_a" {
+resource "aws_vpc_endpoint_subnet_association" "ecr_api_private_a" {
   vpc_endpoint_id = aws_vpc_endpoint.ecr_api.id
   subnet_id       = var.private_subnet_a
 }
 
-resource "aws_vpc_endpoint_subnet_association" "private_b" {
+resource "aws_vpc_endpoint_subnet_association" "ecr_api_private_b" {
   vpc_endpoint_id = aws_vpc_endpoint.ecr_api.id
+  subnet_id       = var.private_subnet_b
+}
+
+resource "aws_vpc_endpoint" "ecr_dkr" {
+  vpc_id            = var.aws_vpc
+  service_name      = "com.amazonaws.us-east-2.ecr.dkr"
+  vpc_endpoint_type = "Interface"
+  
+  private_dns_enabled = true
+  policy = data.aws_iam_policy_documents.ecr_endpoint_policy.json
+}
+
+resource "aws_vpc_endpoint_security_group_association" "ecr_dkr" {
+  vpc_endpoint_id   = aws_vpc_endpoint.ecr_dkr.id
+  security_group_id = aws_security_group.endpoints.id
+}
+
+resource "aws_vpc_endpoint_subnet_association" "ecr_dkr_private_a" {
+  vpc_endpoint_id = aws_vpc_endpoint.ecr_dkr.id
+  subnet_id       = var.private_subnet_a
+}
+
+resource "aws_vpc_endpoint_subnet_association" "ecr_dkr_private_b" {
+  vpc_endpoint_id = aws_vpc_endpoint.ecr_dkr.id
+  subnet_id       = var.private_subnet_b
+}
+
+resource "aws_vpc_endpoint" "cw_logs" {
+  vpc_id            = var.aws_vpc
+  service_name      = "com.amazonaws.us-east-2.logs"
+  vpc_endpoint_type = "Interface"
+  
+  private_dns_enabled = true
+}
+
+resource "aws_vpc_endpoint_security_group_association" "cw_logs" {
+  vpc_endpoint_id   = aws_vpc_endpoint.cw_logs.id
+  security_group_id = aws_security_group.endpoints.id
+}
+
+resource "aws_vpc_endpoint_subnet_association" "cw_private_a" {
+  vpc_endpoint_id = aws_vpc_endpoint.cw_logs.id
+  subnet_id       = var.private_subnet_a
+}
+
+resource "aws_vpc_endpoint_subnet_association" "cw_private_b" {
+  vpc_endpoint_id = aws_vpc_endpoint.cw_logs.id
   subnet_id       = var.private_subnet_b
 }
