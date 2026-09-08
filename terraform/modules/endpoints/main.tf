@@ -94,6 +94,7 @@ resource "aws_vpc_endpoint" "cw_logs" {
   vpc_endpoint_type = "Interface"
   
   private_dns_enabled = true
+  policy = data.aws_iam_policy_documents.cw_endpoint_policy.json
 }
 
 resource "aws_vpc_endpoint_security_group_association" "cw_logs" {
