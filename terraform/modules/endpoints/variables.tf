@@ -17,3 +17,8 @@ variable "private_subnet_b" {
   description = "ID of subnet B"
   type        = string
 }
+
+variable "ecs_security_group" {
+  description = "Security group ID for ecs tasks"
+  type        = string
+}
