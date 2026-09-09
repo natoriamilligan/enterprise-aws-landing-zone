@@ -25,11 +25,11 @@ resource "aws_ecs_task_definition" "app_task" {
   memory                   = var.ecs_memory
   container_definitions    = jsonencode([
     {
-      name      = var.ecs_container_name
-      image     = var.image_name
-      cpu       = var.ecs_container_cpu
-      essential = true
-      portMappings = [
+      name             = var.ecs_container_name
+      image            = var.image_name
+      cpu              = var.ecs_container_cpu
+      essential        = true
+      portMappings     = [
         {
           containerPort = var.container_port
           hostPort      = var.host_port
@@ -37,7 +37,7 @@ resource "aws_ecs_task_definition" "app_task" {
       ]
       logConfiguration = {
         logDriver = "awslogs"
-        options = {
+        options   = {
           "awslogs-group"         = aws_cloudwatch_log_group.ecs.name
           "awslogs-region"        = var.region
           "awslogs-stream-prefix" = "ecs"
@@ -83,7 +83,7 @@ resource "aws_ecs_service" "app-service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_arn
-    container_name   = var.container_name
+    container_name   = var.ecs_container_name
     container_port   = var.container_port
   }
 }
