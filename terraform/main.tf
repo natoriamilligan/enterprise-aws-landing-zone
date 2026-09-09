@@ -60,7 +60,7 @@ module "banking_ecs_service" {
   container_port               = 80
   host_port                    = 80
   region                       = "us-east-2"
-  app_task_sg                  = banking-task-sg
+  app_task_sg                  = "banking-task-sg"
   vpc_id                       = module.banking_vpc.vpc_id
   endpoints_sg                 = module.endpoints.endpoints_sg_id
   app_service_name             = "banking-service"
@@ -82,7 +82,7 @@ module "payments_ecs_service" {
   container_port               = 80
   host_port                    = 80
   region                       = "us-east-2"
-  app_task_sg                  = payments-task-sg
+  app_task_sg                  = "payments-task-sg"
   vpc_id                       = module.payments_vpc.vpc_id
   endpoints_sg                 = module.endpoints.endpoints_sg_id
   app_service_name             = "payments-service"
