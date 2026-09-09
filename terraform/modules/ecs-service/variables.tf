@@ -59,7 +59,7 @@ variable "region" {
 }
 
 variable "app_task_sg" {
-  description = "Security group ID for the task"
+  description = "Name of the task security group"
   type        = string
 }
 
