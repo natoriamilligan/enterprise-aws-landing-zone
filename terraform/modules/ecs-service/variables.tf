@@ -93,7 +93,7 @@ variable "private_subnet_b" {
   type        = string
 }
 
-variable "alb_target_group_arn" {
-  description = "ARN for ALB target group"
+variable "lb_target_group_arn" {
+  description = "ARN for LB target group"
   type        = string
 }
