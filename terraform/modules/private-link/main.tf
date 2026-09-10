@@ -28,3 +28,13 @@ resource "aws_lb_listener" "nlb" {
     target_group_arn = aws_lb_target_group.nlb.arn
   }
 }
+
+resource "aws_vpc_endpoint_service" "nlb" {
+  acceptance_required        = false
+  network_load_balancer_arns = [aws_lb.nlb.arn]
+}
+
+resource "aws_vpc_endpoint_service_allowed_principal" "authorized_acct" {
+  vpc_endpoint_service_id = aws_vpc_endpoint_service.nlb.id
+  principal_arn           = var.allowed_principal_arn
+}
