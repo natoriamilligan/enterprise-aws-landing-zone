@@ -90,4 +90,5 @@ module "payments_ecs_service" {
   app_service_name             = "payments-service"
   private_subnet_a             = module.payments_vpc.private_subnet_a
   private_subnet_b             = module.payments_vpc.private_subnet_b
+  lb_target_group_arn          = module.private-link.lb_target_group_arn
 }
