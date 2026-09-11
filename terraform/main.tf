@@ -59,8 +59,8 @@ module "banking_ecs_service" {
   ecs_memory                   = "512"
   ecs_container_name           = "banking-container"
   ecs_container_cpu            = 0
-  container_port               = 80
-  host_port                    = 80
+  container_port               = var.provider_port
+  host_port                    = var.provider_port
   region                       = "us-east-2"
   app_task_sg                  = "banking-task-sg"
   vpc_id                       = module.banking_vpc.vpc_id
@@ -81,8 +81,8 @@ module "payments_ecs_service" {
   ecs_memory                   = "512"
   ecs_container_name           = "payments-container"
   ecs_container_cpu            = 0
-  container_port               = 80
-  host_port                    = 80
+  container_port               = var.provider_port
+  host_port                    = var.provider_port
   region                       = "us-east-2"
   app_task_sg                  = "payments-task-sg"
   vpc_id                       = module.payments_vpc.vpc_id
@@ -93,7 +93,7 @@ module "payments_ecs_service" {
   lb_target_group_arn          = module.private-link.lb_target_group_arn
 }
 
-module "private-link" {
+module "private_link" {
   source                      = "./modules/private-link"
 
   nlb_name                    = "private-link-nlb"
@@ -104,7 +104,7 @@ module "private-link" {
   nlb_sg_name                 = "nlb-sg"
   nlb_vpc                     = module.payments_vpc.vpc_id
   consumer_vpc_cidr_block     = module.banking_vpc.cidr_block
-  provider_port               = 8000
+  provider_port               = var.provider_port
   nlb_tg_name                 = "nlb-tg"
   allowed_principal_arn       = data.aws_caller_identity.current.arn
   consumer_vpc                = module.banking_vpc.vpc_id
