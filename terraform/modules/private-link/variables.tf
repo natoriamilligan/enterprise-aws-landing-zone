@@ -3,12 +3,22 @@ variable "nlb_name" {
   type        = string
 }
 
-variable "private_subnet_a" {
+variable "provider_private_subnet_a" {
   description = "ID of private subnet A"
   type        = string
 }
 
-variable "private_subnet_b" {
+variable "provider_private_subnet_b" {
+  description = "ID of private subnet B"
+  type        = string
+}
+
+variable "consumer_private_subnet_a" {
+  description = "ID of private subnet A"
+  type        = string
+}
+
+variable "consumer_private_subnet_b" {
   description = "ID of private subnet B"
   type        = string
 }
