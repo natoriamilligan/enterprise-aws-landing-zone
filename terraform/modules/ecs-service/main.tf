@@ -52,14 +52,6 @@ resource "aws_security_group" "app_task_sg" {
   vpc_id      = var.vpc_id
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_alb" {
-  security_group_id = aws_security_group.app_task_sg.id
-  from_port         = 80
-  ip_protocol       = "tcp"
-  to_port           = 80
-  security_groups   = var.alb_security_group
-}
-
 resource "aws_vpc_security_group_egress_rule" "tasks_to_endpoints" {
   security_group_id = aws_security_group.app_task_sg.id
   from_port         = 443
