@@ -43,10 +43,6 @@ resource "aws_vpc_endpoint" "private_link" {
   vpc_id            = var.consumer_vpc
   service_name      = aws_vpc_endpoint_service.nlb.service_name
   vpc_endpoint_type = "Interface"
-  
-  private_dns_enabled = true
-
-  policy = data.aws_iam_policy_document.endpoint_service_policy.json
 }
 
 resource "aws_security_group" "private_link_endpoint" {
