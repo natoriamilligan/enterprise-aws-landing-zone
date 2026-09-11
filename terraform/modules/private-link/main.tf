@@ -13,15 +13,15 @@ resource "aws_security_group" "nlb_sg" {
 
 resource "aws_lb_target_group" "nlb" {
   name     = var.nlb_tg_name
-  port     = 80
-  protocol = "HTTP"
+  port     = var.provider_port
+  protocol = "TCP"
   vpc_id   = var.nlb_vpc
 }
 
 resource "aws_lb_listener" "nlb" {
   load_balancer_arn = aws_lb.nlb.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = var.provider_port
+  protocol          = "TCP"
 
   default_action {
     type             = "forward"
@@ -49,9 +49,28 @@ resource "aws_vpc_endpoint" "private_link" {
   policy = data.aws_iam_policy_document.endpoint_service_policy.json
 }
 
+resource "aws_security_group" "private_link_endpoint" {
+  name        = var.vpc_endpoint_sg_name
+  vpc_id      = var.consumer_vpc
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_ecs" {
+  security_group_id = aws_security_group.private_link_endpoint.id
+  from_port         = var.provider_port
+  ip_protocol       = "tcp"
+  to_port           = var.provider_port
+  security_groups   = var.ecs_security_group
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all" {
+  security_group_id = aws_security_group.private_link_endpoint.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+}
+
 resource "aws_vpc_endpoint_security_group_association" "private_link" {
   vpc_endpoint_id   = aws_vpc_endpoint.private_link.id
-  security_group_id = aws_security_group.private_link.id
+  security_group_id = aws_security_group.private_link_endpoint.id
 }
 
 resource "aws_vpc_endpoint_subnet_association" "private_link_private_a" {
