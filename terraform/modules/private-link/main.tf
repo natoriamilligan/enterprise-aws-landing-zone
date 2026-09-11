@@ -2,7 +2,7 @@ resource "aws_lb" "nlb" {
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
-  subnets            = [var.private_subnet_a, var.private_subnet_b]
+  subnets            = [var.provider_private_subnet_a, var.provider_private_subnet_b]
   security_groups    = [aws_security_group.nlb_sg.id]
 }
 
@@ -79,10 +79,10 @@ resource "aws_vpc_endpoint_security_group_association" "private_link" {
 
 resource "aws_vpc_endpoint_subnet_association" "private_link_private_a" {
   vpc_endpoint_id = aws_vpc_endpoint.private_link.id
-  subnet_id       = var.private_subnet_a
+  subnet_id       = var.consumer_private_subnet_a
 }
 
 resource "aws_vpc_endpoint_subnet_association" "private_link_private_b" {
   vpc_endpoint_id = aws_vpc_endpoint.private_link.id
-  subnet_id       = var.private_subnet_b
+  subnet_id       = var.consumer_private_subnet_b
 }
