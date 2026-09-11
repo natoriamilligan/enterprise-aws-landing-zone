@@ -11,6 +11,14 @@ resource "aws_security_group" "nlb_sg" {
   vpc_id      = var.nlb_vpc
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_vpc" {
+  security_group_id = aws_security_group.nlb_sg.id
+  cidr_ipv4         = var.consumer_vpc_cidr_block
+  from_port         = var.provider_port
+  ip_protocol       = "tcp"
+  to_port           = var.provider_port
+}
+
 resource "aws_lb_target_group" "nlb" {
   name     = var.nlb_tg_name
   port     = var.provider_port
