@@ -92,3 +92,22 @@ module "payments_ecs_service" {
   private_subnet_b             = module.payments_vpc.private_subnet_b
   lb_target_group_arn          = module.private-link.lb_target_group_arn
 }
+
+module "private-link" {
+  source                      = "./modules/private-link"
+
+  nlb_name                    = "private-link-nlb"
+  provider_private_subnet_a   = module.payments_vpc.private_subnet_a
+  provider_private_subnet_b   = module.payments_vpc.private_subnet_b
+  consumer_private_subnet_a   = module.banking_vpc.private_subnet_a
+  consumer_private_subnet_b   = module.banking_vpc.private_subnet_b
+  nlb_sg_name                 = "nlb-sg"
+  nlb_vpc                     = module.payments_vpc.vpc_id
+  consumer_vpc_cidr_block     = module.banking_vpc.cidr_block
+  provider_port               = 8000
+  nlb_tg_name                 = "nlb-tg"
+  allowed_principal_arn       = data.aws_caller_identity.current.arn
+  consumer_vpc                = module.banking_vpc.vpc_id
+  vpc_endpoint_sg_name        = "private-link-interface-endpoint"
+  consumer_ecs_security_group = module.banking_ecs_service.ecs_security_group_id
+}
