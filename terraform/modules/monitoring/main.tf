@@ -77,3 +77,23 @@ resource "aws_cloudwatch_metric_alarm" "payments_memory" {
     ServiceName  = var.payments_service_name
   }
 }
+
+resource "aws_sns_topic" "ecs_banking_updates" {
+  name = "ecs-banking"
+}
+
+resource "aws_sns_topic_subscription" "banking_email" {
+  topic_arn = aws_sns_topic.ecs_banking_updates.arn
+  protocol  = "email"
+  endpoint  = var.email_address
+}
+
+resource "aws_sns_topic" "ecs_payments_updates" {
+  name = "ecs-payments"
+}
+
+resource "aws_sns_topic_subscription" "banking_email" {
+  topic_arn = aws_sns_topic.ecs_payments_updates.arn
+  protocol  = "email"
+  endpoint  = var.email_address
+}
