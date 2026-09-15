@@ -9,6 +9,9 @@ resource "aws_cloudwatch_metric_alarm" "banking_cpu" {
   threshold           = 80
   alarm_description   = "This metric monitors cpu utilization"
   datapoints_to_alarm = 5
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.banking_ecs_alerts.arn]
+  ok_actions          = [aws_sns_topic.banking_ecs_alerts.arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "banking_memory" {
@@ -22,6 +25,9 @@ resource "aws_cloudwatch_metric_alarm" "banking_memory" {
   threshold           = 80
   alarm_description   = "This metric monitors memory utilization"
   datapoints_to_alarm = 5
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.banking_ecs_alerts.arn]
+  ok_actions          = [aws_sns_topic.banking_ecs_alerts.arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "payments_cpu" {
@@ -35,6 +41,9 @@ resource "aws_cloudwatch_metric_alarm" "payments_cpu" {
   threshold           = 80
   alarm_description   = "This metric monitors cpu utilization"
   datapoints_to_alarm = 5
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.payments_ecs_alerts.arn]
+  ok_actions          = [aws_sns_topic.payments_ecs_alerts.arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "payments_memory" {
@@ -48,4 +57,7 @@ resource "aws_cloudwatch_metric_alarm" "payments_memory" {
   threshold           = 80
   alarm_description   = "This metric monitors memory utilization"
   datapoints_to_alarm = 5
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.payments_ecs_alerts.arn]
+  ok_actions          = [aws_sns_topic.payments_ecs_alerts.arn]
 }
