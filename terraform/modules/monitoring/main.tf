@@ -12,6 +12,10 @@ resource "aws_cloudwatch_metric_alarm" "banking_cpu" {
   treat_missing_data  = "breaching"
   alarm_actions       = [aws_sns_topic.banking_ecs_alerts.arn]
   ok_actions          = [aws_sns_topic.banking_ecs_alerts.arn]
+  dimensions = {
+    ClusterName  = var.banking_cluster_name
+    ServiceName  = var.banking_service_name
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "banking_memory" {
@@ -28,6 +32,10 @@ resource "aws_cloudwatch_metric_alarm" "banking_memory" {
   treat_missing_data  = "breaching"
   alarm_actions       = [aws_sns_topic.banking_ecs_alerts.arn]
   ok_actions          = [aws_sns_topic.banking_ecs_alerts.arn]
+  dimensions = {
+    ClusterName  = var.banking_cluster_name
+    ServiceName  = var.banking_service_name
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "payments_cpu" {
@@ -44,6 +52,10 @@ resource "aws_cloudwatch_metric_alarm" "payments_cpu" {
   treat_missing_data  = "breaching"
   alarm_actions       = [aws_sns_topic.payments_ecs_alerts.arn]
   ok_actions          = [aws_sns_topic.payments_ecs_alerts.arn]
+  dimensions = {
+    ClusterName  = var.payments_cluster_name
+    ServiceName  = var.payments_service_name
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "payments_memory" {
@@ -60,4 +72,8 @@ resource "aws_cloudwatch_metric_alarm" "payments_memory" {
   treat_missing_data  = "breaching"
   alarm_actions       = [aws_sns_topic.payments_ecs_alerts.arn]
   ok_actions          = [aws_sns_topic.payments_ecs_alerts.arn]
+  dimensions = {
+    ClusterName  = var.payments_cluster_name
+    ServiceName  = var.payments_service_name
+  }
 }
