@@ -211,3 +211,186 @@ resource "aws_sns_topic_subscription" "nlb_link_email" {
   protocol  = "email"
   endpoint  = var.email_address
 }
+
+resource "aws_cloudwatch_dashboard" "banking_payments_dashboard" {
+  dashboard_name = "banking-payments-dashboard"
+
+  dashboard_body = jsonencode({
+    widgets = [
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/EC2",
+              "CPUUtilization",
+              "ClusterName", var.banking_cluster_name,
+              "ServiceName", var.banking_service_name
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "Banking CPU Utilization"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/EC2",
+              "MemoryUtilization",
+              "ClusterName", var.banking_cluster_name,
+              "ServiceName", var.banking_service_name
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "Banking Memory Utilization"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/EC2",
+              "CPUUtilization",
+              "ClusterName", var.payments_cluster_name,
+              "ServiceName", var.payments_service_name
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "Payments CPU Utilization"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/EC2",
+              "MemoryUtilization",
+              "ClusterName", var.payments_cluster_name,
+              "ServiceName", var.payments_service_name
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "Payments Memory Utilization"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/PrivateLinkEndpoints",
+              "PacketsDropped",
+              "VPCEndpointId", var.endpoint_id
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "Private Link Endpoint Packets Dropped"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/PrivateLinkServices",
+              "RstPacketsSent",
+              "ServiceId", var.endpoint_service_id
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "Endpoint Service Resets"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/ApplicationELB",
+              "UnHealthyHostCount",
+              "LoadBalancer", var.alb_arn_suffix,
+              "TargetGroup", var.alb_target_group_arn_suffix
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "ALB Unhealthy Hosts"
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            [
+              "AWS/NetworkELB",
+              "UnHealthyHostCount",
+              "LoadBalancer", var.nlb_arn_suffix,
+              "TargetGroup", var.nlb_target_group_arn_suffix
+            ]
+          ]
+          period = 300
+          stat   = "Average"
+          region = "us-east-2"
+          title  = "NLB Unhealthy Hosts"
+        }
+      }
+    ]
+  })
+}
