@@ -92,8 +92,62 @@ resource "aws_sns_topic" "ecs_payments_updates" {
   name = "ecs-payments"
 }
 
-resource "aws_sns_topic_subscription" "banking_email" {
+resource "aws_sns_topic_subscription" "payments_email" {
   topic_arn = aws_sns_topic.ecs_payments_updates.arn
+  protocol  = "email"
+  endpoint  = var.email_address
+}
+
+resource "aws_cloudwatch_metric_alarm" "private_link_endpoint" {
+  alarm_name          = "private-link-endpoint"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 5
+  metric_name         = "PacketsDropped"
+  namespace           = "AWS/PrivateLinkEndpoints"
+  period              = 60
+  statistic           = "Sum"
+  threshold           = 0
+  alarm_description   = "This metric monitors the number of packets dropped"
+  datapoints_to_alarm = 5
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.private_link.arn]
+  ok_actions          = [aws_sns_topic.private_link.arn]
+  dimensions = {
+    VPCEndpointId  = var.endpoint_id
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "private_link_endpoint_service" {
+  alarm_name          = "private-link-endpoint-service"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 5
+  metric_name         = "RstPacketsSent"
+  namespace           = "AWS/PrivateLinkServices"
+  period              = 60
+  statistic           = "Sum"
+  threshold           = 0
+  alarm_description   = "This metric monitors unhealthy targets of the endpoint service"
+  datapoints_to_alarm = 5
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.private_link.arn]
+  ok_actions          = [aws_sns_topic.private_link.arn]
+  dimensions = {
+    ServiceId  = var.endpoint_service_id
+  }
+}
+
+resource "aws_sns_topic" "private_link" {
+  name = "private-link"
+}
+
+resource "aws_sns_topic_subscription" "private_link_email" {
+  topic_arn = aws_sns_topic.private_link_updates.arn
+  protocol  = "email"
+  endpoint  = var.email_address
+}
+
+resource "aws_sns_topic_subscription" "private_link_service_email" {
+  topic_arn = aws_sns_topic.private_link_updates.arn
   protocol  = "email"
   endpoint  = var.email_address
 }
