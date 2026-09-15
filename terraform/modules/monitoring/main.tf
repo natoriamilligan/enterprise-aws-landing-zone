@@ -151,3 +151,63 @@ resource "aws_sns_topic_subscription" "private_link_service_email" {
   protocol  = "email"
   endpoint  = var.email_address
 }
+
+resource "aws_cloudwatch_metric_alarm" "alb_unhealthy_host" {
+  alarm_name          = "alb-unhealthy-host"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  metric_name         = "UnHealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = 60
+  statistic           = "Maximum"
+  threshold           = 0
+  alarm_description   = "This metric monitors ECS targets that fail health checks"
+  datapoints_to_alarm = 2
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.alb.arn]
+  ok_actions          = [aws_sns_topic.alb.arn]
+  dimensions = {
+    LoadBalancer = var.alb_arn_suffix
+    TargetGroup  = var.alb_target_group_arn_suffix
+  }
+}
+
+resource "aws_sns_topic" "alb" {
+  name = "alb"
+}
+
+resource "aws_sns_topic_subscription" "alb_email" {
+  topic_arn = aws_sns_topic.alb_updates.arn
+  protocol  = "email"
+  endpoint  = var.email_address
+}
+
+resource "aws_cloudwatch_metric_alarm" "nlb_unhealthy_host" {
+  alarm_name          = "nlb-unhealthy-host"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  metric_name         = "UnHealthyHostCount"
+  namespace           = "AWS/NetworkELB"
+  period              = 60
+  statistic           = "Maximum"
+  threshold           = 0
+  alarm_description   = "This metric monitors ECS targets that fail health checks"
+  datapoints_to_alarm = 2
+  treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.nlb.arn]
+  ok_actions          = [aws_sns_topic.nlb.arn]
+  dimensions = {
+    LoadBalancer = var.nlb_arn_suffix
+    TargetGroup  = var.nlb_target_group_arn_suffix
+  }
+}
+
+resource "aws_sns_topic" "nlb" {
+  name = "nlb"
+}
+
+resource "aws_sns_topic_subscription" "nlb_link_email" {
+  topic_arn = aws_sns_topic.nlb_updates.arn
+  protocol  = "email"
+  endpoint  = var.email_address
+}
