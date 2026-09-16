@@ -111,3 +111,19 @@ module "private_link" {
   vpc_endpoint_sg_name        = "private-link-interface-endpoint"
   consumer_ecs_security_group = module.banking_ecs_service.ecs_security_group_id
 }
+
+module "monitoring" {
+  source                      = "./modules/monitoring"
+
+  banking_cluster_name = module.banking_ecs_service.cluster_name
+  banking_service_name = module.banking_ecs_service.service_name
+  payments_cluster_name = module.payments_ecs_service.cluster_name
+  payments_service_name = module.payments_ecs_service.service_name
+  email_address = natoriaray@utexas.edu
+  endpoint_id = module.private_link.private_link_interface_endpoint_id
+  endpoint_service_id = module.private_link.private_link_endpoint_service_id
+  alb_arn_suffix = TODO
+  alb_target_group_arn_suffix = TODO
+  nlb_arn_suffix = module.private_link.nlb_arn_suffix
+  nlb_target_group_arn_suffix = module.private_link.nlb_target_group_arn_suffix
+}
