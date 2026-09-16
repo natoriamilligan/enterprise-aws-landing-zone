@@ -58,6 +58,7 @@ module "banking_ecs_service" {
   ecs_task_cpu                 = "256"
   ecs_memory                   = "512"
   ecs_container_name           = "banking-container"
+  image_name                   = TODO
   ecs_container_cpu            = 0
   container_port               = var.provider_port
   host_port                    = var.provider_port
@@ -68,6 +69,7 @@ module "banking_ecs_service" {
   app_service_name             = "banking-service"
   private_subnet_a             = module.banking_vpc.private_subnet_a
   private_subnet_b             = module.banking_vpc.private_subnet_b
+  lb_target_group_arn         = aws_lb_listener.alb_listener.arn
 }
 
 module "payments_ecs_service" {
@@ -80,6 +82,7 @@ module "payments_ecs_service" {
   ecs_task_cpu                 = "256"
   ecs_memory                   = "512"
   ecs_container_name           = "payments-container"
+  image_name                   = TODO
   ecs_container_cpu            = 0
   container_port               = var.provider_port
   host_port                    = var.provider_port
@@ -122,8 +125,8 @@ module "monitoring" {
   email_address = natoriaray@utexas.edu
   endpoint_id = module.private_link.private_link_interface_endpoint_id
   endpoint_service_id = module.private_link.private_link_endpoint_service_id
-  alb_arn_suffix = TODO
-  alb_target_group_arn_suffix = TODO
+  alb_arn_suffix = aws_lb.alb.arn_suffix
+  alb_target_group_arn_suffix = aws_lb_target_group.alb_tg.arn_suffix
   nlb_arn_suffix = module.private_link.nlb_arn_suffix
   nlb_target_group_arn_suffix = module.private_link.nlb_target_group_arn_suffix
 }
