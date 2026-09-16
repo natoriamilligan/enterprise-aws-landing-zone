@@ -6,6 +6,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb" {
   referenced_security_group_id   = var.alb_security_group
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_ecs_to_endpoint" {
+  security_group_id = aws_security_group.private_link_interface_endpoint.id
+  from_port         = var.provider_port
+  ip_protocol       = "tcp"
+  to_port           = var.provider_port
+  security_groups   = var.consumer_ecs_security_group
+}
+
 resource "aws_vpc_security_group_egress_rule" "to_private_link_interface_endpoint" {
   security_group_id            = module.banking_ecs_service.sg_id
   from_port                    = var.provider_port
