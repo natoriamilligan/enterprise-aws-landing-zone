@@ -68,11 +68,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "alb_security_group" {
-  description = "Security group ID for the ALB"
-  type        = string
-}
-
 variable "endpoints_sg" {
   description = "Security group ID for the endpoints"
   type        = string
