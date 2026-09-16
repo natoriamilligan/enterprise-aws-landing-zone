@@ -58,14 +58,6 @@ resource "aws_security_group" "private_link_interface_endpoint" {
   vpc_id      = var.consumer_vpc
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_ecs" {
-  security_group_id = aws_security_group.private_link_interface_endpoint.id
-  from_port         = var.provider_port
-  ip_protocol       = "tcp"
-  to_port           = var.provider_port
-  security_groups   = var.consumer_ecs_security_group
-}
-
 resource "aws_vpc_security_group_egress_rule" "allow_all" {
   security_group_id = aws_security_group.private_link_interface_endpoint.id
   cidr_ipv4         = "0.0.0.0/0"
