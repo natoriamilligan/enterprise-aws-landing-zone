@@ -3,3 +3,9 @@ variable "provider_port" {
   type        = string
   default     = "8000"
 }
+
+variable "region" {
+  description = "Region where infrastructure is deployed"
+  type        = string
+  default     = "us-east-2"
+}
