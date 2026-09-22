@@ -13,7 +13,7 @@ variable "ecs_log_group_name" {
   type        = string
 }
 
-variable "ecs_ecs_family_name" {
+variable "ecs_family_name" {
   description = "Name of ECS family"
   type        = string
 }
