@@ -1,3 +1,13 @@
+terraform {
+  backend "s3" {
+    bucket         = "natoria-landing-zone"
+    key            = "dev/terraform.tfstate"
+    region         = var.region
+    use_lockfile   = true
+    encrypt        = true
+  }
+}
+
 module "banking_vpc" {
   source           = "./modules/vpc"
 
