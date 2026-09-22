@@ -1,0 +1,48 @@
+name: Deploy Banking App
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+jobs:       
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.3.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/banking-github-role
+          aws-region: us-east-2
+
+      - name: Login to AWS ECR
+        uses: aws-actions/amazon-ecr-login@v2.1.7
+
+      - name: Build and push Docker image to ECR
+        run: |
+          docker build -f apps/banking/Dockerfile -t ${{ secrets.BANKING_ECR_REPO }}:latest apps/banking/
+          docker push ${{ secrets.BANKING_ECR_REPO }}:latest
+
+      - name: Fetch ECS Task Definition
+        run: |
+          aws ecs describe-task-definition --task-definition banking-task-family --query taskDefinition > banking-task-family.json
+
+      - name: Update task definition
+        id: updated-task
+        uses: aws-actions/amazon-ecs-render-task-definition@v1.9.0
+        with:
+          task-definition: banking-task-family.json
+          container-name: banking-container
+          image: ${{ secrets.BANKING_ECR_REPO }}:latest
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.6.3
+        with:
+          task-definition: ${{ steps.updated-task.outputs.task-definition }}
+          cluster: ${{ vars.BANKING_CLUSTER }}
+          service: ${{ vars.BANKING_SERVICE }}
+          wait-for-service-stability: true
