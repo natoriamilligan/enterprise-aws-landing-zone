@@ -62,7 +62,7 @@ module "banking_ecs_service" {
   source                       = "./modules/ecs-service"
 
   ecs_cluster_name             = "banking-cluster"
-  ecs_task_execution_role_name = ecsTaskExecutionRoleBanking
+  ecs_task_execution_role_name = "ecsTaskExecutionRoleBanking"
   ecs_log_group_name           = "/ecs/banking-tasks"
   ecs_family_name              = "banking-task-family"
   ecs_task_cpu                 = "256"
@@ -86,7 +86,7 @@ module "payments_ecs_service" {
   source                 = "./modules/ecs-service"
 
   ecs_cluster_name             = "payments-cluster"
-  ecs_task_execution_role_name = ecsTaskExecutionRolePayments
+  ecs_task_execution_role_name = "ecsTaskExecutionRolePayments"
   ecs_log_group_name           = "/ecs/payments-tasks"
   ecs_family_name              = "payments-task-family"
   ecs_task_cpu                 = "256"
