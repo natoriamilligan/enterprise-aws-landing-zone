@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "banking" {
   }
 }
 
-resource "aws_ecr_repository" payments" {
+resource "aws_ecr_repository" "payments" {
   name                 = "payments-repo"
   image_tag_mutability = "MUTABLE"
 

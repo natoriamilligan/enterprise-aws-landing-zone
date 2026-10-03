@@ -7,7 +7,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ecs_to_endpoint" {
-  security_group_id             = aws_security_group.private_link_interface_endpoint.id
+  security_group_id             = module.private_link.private_link_interface_endpoint_sg
   from_port                     = var.provider_port
   ip_protocol                   = "tcp"
   to_port                       = var.provider_port
@@ -27,7 +27,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_nlb" {
   from_port                      = var.provider_port
   ip_protocol                    = "tcp"
   to_port                        = var.provider_port
-  referenced_security_group_id   = module.private-link.nlb_sg
+  referenced_security_group_id   = module.private_link.nlb_sg
 }
 
 resource "aws_vpc_security_group_egress_rule" "to_provider" {

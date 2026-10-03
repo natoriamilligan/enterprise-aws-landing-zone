@@ -22,3 +22,8 @@ variable "ecs_security_group" {
   description = "Security group ID for ecs tasks"
   type        = string
 }
+
+variable "account_id" {
+  description = "AWS caller identity account ID"
+  type        = string
+}

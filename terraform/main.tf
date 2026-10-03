@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket         = "natoria-landing-zone"
     key            = "dev/terraform.tfstate"
-    region         = var.region
+    region         = "us-east-2"
     use_lockfile   = true
     encrypt        = true
   }
@@ -46,6 +46,7 @@ module "banking_vpc_endpoints" {
   private_subnet_a       = module.banking_vpc.private_subnet_a
   private_subnet_b       = module.banking_vpc.private_subnet_b
   ecs_security_group     = module.banking_ecs_service.ecs_security_group_id
+  account_id             = aws_caller_identity.current.account_id
 }
 
 module "payments_vpc_endpoints" {
@@ -56,6 +57,7 @@ module "payments_vpc_endpoints" {
   private_subnet_a       = module.payments_vpc.private_subnet_a
   private_subnet_b       = module.payments_vpc.private_subnet_b
   ecs_security_group     = module.payments_ecs_service.ecs_security_group_id
+  account_id             = aws_caller_identity.current.account_id
 }
 
 module "banking_ecs_service" {
@@ -75,7 +77,7 @@ module "banking_ecs_service" {
   region                       = "us-east-2"
   app_task_sg                  = "banking-task-sg"
   vpc_id                       = module.banking_vpc.vpc_id
-  endpoints_sg                 = module.endpoints.endpoints_sg_id
+  endpoints_sg                 = module.banking_vpc_endpoints.endpoints_sg_id
   app_service_name             = "banking-service"
   private_subnet_a             = module.banking_vpc.private_subnet_a
   private_subnet_b             = module.banking_vpc.private_subnet_b
@@ -105,11 +107,11 @@ module "payments_ecs_service" {
   region                       = "us-east-2"
   app_task_sg                  = "payments-task-sg"
   vpc_id                       = module.payments_vpc.vpc_id
-  endpoints_sg                 = module.endpoints.endpoints_sg_id
+  endpoints_sg                 = module.payments_vpc_endpoints.endpoints_sg_id
   app_service_name             = "payments-service"
   private_subnet_a             = module.payments_vpc.private_subnet_a
   private_subnet_b             = module.payments_vpc.private_subnet_b
-  lb_target_group_arn          = module.private-link.lb_target_group_arn
+  lb_target_group_arn          = module.private_link.lb_target_group_arn
 }
 
 module "private_link" {
@@ -138,7 +140,7 @@ module "monitoring" {
   banking_service_name        = module.banking_ecs_service.service_name
   payments_cluster_name       = module.payments_ecs_service.cluster_name
   payments_service_name       = module.payments_ecs_service.service_name
-  email_address               = natoriaray@utexas.edu
+  email_address               = "natoriaray@utexas.edu"
   endpoint_id                 = module.private_link.private_link_interface_endpoint_id
   endpoint_service_id         = module.private_link.private_link_endpoint_service_id
   alb_arn_suffix              = aws_lb.alb.arn_suffix
