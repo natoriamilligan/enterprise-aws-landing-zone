@@ -83,7 +83,7 @@ module "banking_ecs_service" {
   environment_variables        = [
     {
       name  = "PAYMENTS_URL"
-      value = "http://${module.payments_private_link.endpoint_dns_name}:8000"
+      value = "http://${module.private_link.endpoint_dns_name}:8000"
     }
   ]
 }

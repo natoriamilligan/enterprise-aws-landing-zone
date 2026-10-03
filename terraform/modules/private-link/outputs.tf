@@ -21,3 +21,7 @@ output "nlb_arn_suffix" {
 output "nlb_target_group_arn_suffix" {
   value = aws_lb.nlb.arn_suffix
 }
+
+output "endpoint_dns_name" {
+  value = aws_vpc_endpoint.private_link.dns_entry[0].dns_name
+}
