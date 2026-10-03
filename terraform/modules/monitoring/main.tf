@@ -10,8 +10,8 @@ resource "aws_cloudwatch_metric_alarm" "banking_cpu" {
   alarm_description   = "This metric monitors cpu utilization"
   datapoints_to_alarm = 5
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.banking_ecs_alerts.arn]
-  ok_actions          = [aws_sns_topic.banking_ecs_alerts.arn]
+  alarm_actions       = [aws_sns_topic.ecs_banking_alerts.arn]
+  ok_actions          = [aws_sns_topic.ecs_banking_alerts.arn]
   dimensions = {
     ClusterName  = var.banking_cluster_name
     ServiceName  = var.banking_service_name
@@ -30,8 +30,8 @@ resource "aws_cloudwatch_metric_alarm" "banking_memory" {
   alarm_description   = "This metric monitors memory utilization"
   datapoints_to_alarm = 5
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.banking_ecs_alerts.arn]
-  ok_actions          = [aws_sns_topic.banking_ecs_alerts.arn]
+  alarm_actions       = [aws_sns_topic.ecs_banking_alerts.arn]
+  ok_actions          = [aws_sns_topic.ecs_banking_alerts.arn]
   dimensions = {
     ClusterName  = var.banking_cluster_name
     ServiceName  = var.banking_service_name
@@ -50,8 +50,8 @@ resource "aws_cloudwatch_metric_alarm" "payments_cpu" {
   alarm_description   = "This metric monitors cpu utilization"
   datapoints_to_alarm = 5
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.payments_ecs_alerts.arn]
-  ok_actions          = [aws_sns_topic.payments_ecs_alerts.arn]
+  alarm_actions       = [aws_sns_topic.ecs_payments_alerts.arn]
+  ok_actions          = [aws_sns_topic.ecs_payments_alerts.arn]
   dimensions = {
     ClusterName  = var.payments_cluster_name
     ServiceName  = var.payments_service_name
@@ -70,30 +70,30 @@ resource "aws_cloudwatch_metric_alarm" "payments_memory" {
   alarm_description   = "This metric monitors memory utilization"
   datapoints_to_alarm = 5
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.payments_ecs_alerts.arn]
-  ok_actions          = [aws_sns_topic.payments_ecs_alerts.arn]
+  alarm_actions       = [aws_sns_topic.ecs_payments_alerts.arn]
+  ok_actions          = [aws_sns_topic.ecs_payments_alerts.arn]
   dimensions = {
     ClusterName  = var.payments_cluster_name
     ServiceName  = var.payments_service_name
   }
 }
 
-resource "aws_sns_topic" "ecs_banking_updates" {
+resource "aws_sns_topic" "ecs_banking_alerts" {
   name = "ecs-banking"
 }
 
 resource "aws_sns_topic_subscription" "banking_email" {
-  topic_arn = aws_sns_topic.ecs_banking_updates.arn
+  topic_arn = aws_sns_topic.ecs_banking_alerts.arn
   protocol  = "email"
   endpoint  = var.email_address
 }
 
-resource "aws_sns_topic" "ecs_payments_updates" {
+resource "aws_sns_topic" "ecs_payments_alerts" {
   name = "ecs-payments"
 }
 
 resource "aws_sns_topic_subscription" "payments_email" {
-  topic_arn = aws_sns_topic.ecs_payments_updates.arn
+  topic_arn = aws_sns_topic.ecs_payments_alerts.arn
   protocol  = "email"
   endpoint  = var.email_address
 }
@@ -110,8 +110,8 @@ resource "aws_cloudwatch_metric_alarm" "private_link_endpoint" {
   alarm_description   = "This metric monitors the number of packets dropped"
   datapoints_to_alarm = 5
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.private_link.arn]
-  ok_actions          = [aws_sns_topic.private_link.arn]
+  alarm_actions       = [aws_sns_topic.private_link_updates.arn]
+  ok_actions          = [aws_sns_topic.private_link_updates.arn]
   dimensions = {
     VPCEndpointId  = var.endpoint_id
   }
@@ -129,14 +129,14 @@ resource "aws_cloudwatch_metric_alarm" "private_link_endpoint_service" {
   alarm_description   = "This metric monitors unhealthy targets of the endpoint service"
   datapoints_to_alarm = 5
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.private_link.arn]
-  ok_actions          = [aws_sns_topic.private_link.arn]
+  alarm_actions       = [aws_sns_topic.private_link_updates.arn]
+  ok_actions          = [aws_sns_topic.private_link_updates.arn]
   dimensions = {
     ServiceId  = var.endpoint_service_id
   }
 }
 
-resource "aws_sns_topic" "private_link" {
+resource "aws_sns_topic" "private_link_updates" {
   name = "private-link"
 }
 
@@ -164,15 +164,15 @@ resource "aws_cloudwatch_metric_alarm" "alb_unhealthy_host" {
   alarm_description   = "This metric monitors ECS targets that fail health checks"
   datapoints_to_alarm = 2
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.alb.arn]
-  ok_actions          = [aws_sns_topic.alb.arn]
+  alarm_actions       = [aws_sns_topic.alb_updates.arn]
+  ok_actions          = [aws_sns_topic.alb_updates.arn]
   dimensions = {
     LoadBalancer = var.alb_arn_suffix
     TargetGroup  = var.alb_target_group_arn_suffix
   }
 }
 
-resource "aws_sns_topic" "alb" {
+resource "aws_sns_topic" "alb_updates" {
   name = "alb"
 }
 
@@ -194,15 +194,15 @@ resource "aws_cloudwatch_metric_alarm" "nlb_unhealthy_host" {
   alarm_description   = "This metric monitors ECS targets that fail health checks"
   datapoints_to_alarm = 2
   treat_missing_data  = "breaching"
-  alarm_actions       = [aws_sns_topic.nlb.arn]
-  ok_actions          = [aws_sns_topic.nlb.arn]
+  alarm_actions       = [aws_sns_topic.nlb_updates.arn]
+  ok_actions          = [aws_sns_topic.nlb_updates.arn]
   dimensions = {
     LoadBalancer = var.nlb_arn_suffix
     TargetGroup  = var.nlb_target_group_arn_suffix
   }
 }
 
-resource "aws_sns_topic" "nlb" {
+resource "aws_sns_topic" "nlb_updates" {
   name = "nlb"
 }
 

@@ -1,5 +1,5 @@
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id       = var.aws_vpc
+  vpc_id       = var.vpc_id
   service_name = "com.amazonaws.us-east-2.s3"
 
   policy = jsonencode({
@@ -22,7 +22,7 @@ resource "aws_vpc_endpoint_route_table_association" "s3" {
 
 resource "aws_security_group" "endpoints" {
   description = "Allow inbound traffic from ECS service on port 443"
-  vpc_id      = var.aws_vpc
+  vpc_id      = var.vpc_id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_ecs" {
@@ -40,7 +40,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all" {
 }
 
 resource "aws_vpc_endpoint" "ecr_api" {
-  vpc_id            = var.aws_vpc
+  vpc_id            = var.vpc_id
   service_name      = "com.amazonaws.us-east-2.ecr.api"
   vpc_endpoint_type = "Interface"
   
@@ -65,12 +65,12 @@ resource "aws_vpc_endpoint_subnet_association" "ecr_api_private_b" {
 }
 
 resource "aws_vpc_endpoint" "ecr_dkr" {
-  vpc_id            = var.aws_vpc
+  vpc_id            = var.vpc_id
   service_name      = "com.amazonaws.us-east-2.ecr.dkr"
   vpc_endpoint_type = "Interface"
   
   private_dns_enabled = true
-  policy = data.aws_iam_policy_documents.ecr_endpoint_policy.json
+  policy = data.aws_iam_policy_document.ecr_endpoint_policy.json
 }
 
 resource "aws_vpc_endpoint_security_group_association" "ecr_dkr" {
@@ -89,12 +89,12 @@ resource "aws_vpc_endpoint_subnet_association" "ecr_dkr_private_b" {
 }
 
 resource "aws_vpc_endpoint" "cw_logs" {
-  vpc_id            = var.aws_vpc
+  vpc_id            = var.vpc_id
   service_name      = "com.amazonaws.us-east-2.logs"
   vpc_endpoint_type = "Interface"
   
   private_dns_enabled = true
-  policy = data.aws_iam_policy_documents.cw_endpoint_policy.json
+  policy = data.aws_iam_policy_document.cw_endpoint_policy.json
 }
 
 resource "aws_vpc_endpoint_security_group_association" "cw_logs" {

@@ -45,8 +45,8 @@ module "banking_vpc_endpoints" {
   private_route_table_id = module.banking_vpc.private_route_table_id
   private_subnet_a       = module.banking_vpc.private_subnet_a
   private_subnet_b       = module.banking_vpc.private_subnet_b
-  ecs_security_group     = module.banking_ecs_service.ecs_security_group_id
-  account_id             = aws_caller_identity.current.account_id
+  ecs_security_group     = module.banking_ecs_service.sg_id
+  account_id             = data.aws_caller_identity.current.account_id
 }
 
 module "payments_vpc_endpoints" {
@@ -56,8 +56,8 @@ module "payments_vpc_endpoints" {
   private_route_table_id = module.payments_vpc.private_route_table_id
   private_subnet_a       = module.payments_vpc.private_subnet_a
   private_subnet_b       = module.payments_vpc.private_subnet_b
-  ecs_security_group     = module.payments_ecs_service.ecs_security_group_id
-  account_id             = aws_caller_identity.current.account_id
+  ecs_security_group     = module.payments_ecs_service.sg_id
+  account_id             = data.aws_caller_identity.current.account_id
 }
 
 module "banking_ecs_service" {
@@ -111,7 +111,7 @@ module "payments_ecs_service" {
   app_service_name             = "payments-service"
   private_subnet_a             = module.payments_vpc.private_subnet_a
   private_subnet_b             = module.payments_vpc.private_subnet_b
-  lb_target_group_arn          = module.private_link.lb_target_group_arn
+  lb_target_group_arn          = module.private_link.nlb_target_group_arn
 }
 
 module "private_link" {
@@ -130,7 +130,7 @@ module "private_link" {
   allowed_principal_arn       = data.aws_caller_identity.current.arn
   consumer_vpc                = module.banking_vpc.vpc_id
   vpc_endpoint_sg_name        = "private-link-interface-endpoint"
-  consumer_ecs_security_group = module.banking_ecs_service.ecs_security_group_id
+  consumer_ecs_security_group = module.banking_ecs_service.sg_id
 }
 
 module "monitoring" {

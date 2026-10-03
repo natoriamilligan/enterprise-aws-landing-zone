@@ -11,15 +11,15 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ecs_to_endpoint" {
   from_port                     = var.provider_port
   ip_protocol                   = "tcp"
   to_port                       = var.provider_port
-  referenced_security_group_id  = var.consumer_ecs_security_group
+  referenced_security_group_id  = module.banking_ecs_service.sg_id
 }
 
 resource "aws_vpc_security_group_egress_rule" "to_private_link_interface_endpoint" {
   security_group_id            = module.banking_ecs_service.sg_id
   from_port                    = var.provider_port
-  protocol                     = "tcp"
+  ip_protocol                     = "tcp"
   to_port                      = var.provider_port
-  referenced_security_group_id = module.private_link.private_link_interface_endpoint
+  referenced_security_group_id = module.private_link.private_link_interface_endpoint_id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_nlb" {
