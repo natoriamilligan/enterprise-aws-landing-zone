@@ -92,3 +92,12 @@ variable "lb_target_group_arn" {
   description = "ARN for LB target group"
   type        = string
 }
+
+variable "environment_variables" {
+  description = "Environment variables passed to ECS"
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
