@@ -128,7 +128,7 @@ module "private_link" {
   nlb_vpc                     = module.payments_vpc.vpc_id
   consumer_vpc_cidr_block     = module.banking_vpc.cidr_block
   provider_port               = var.provider_port
-  nlb_tg_name                 = "nlb-tg"
+  nlb_tg_prefix               = "lb-tg-"
   allowed_principal_arn       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
   consumer_vpc                = module.banking_vpc.vpc_id
   vpc_endpoint_sg_name        = "private-link-interface-endpoint"
