@@ -19,7 +19,7 @@ resource "aws_vpc_security_group_egress_rule" "to_private_link_interface_endpoin
   from_port                    = var.provider_port
   ip_protocol                     = "tcp"
   to_port                      = var.provider_port
-  referenced_security_group_id = module.private_link.private_link_interface_endpoint_id
+  referenced_security_group_id = module.private_link.private_link_interface_endpoint_sg
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_nlb" {
