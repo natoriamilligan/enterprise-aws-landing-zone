@@ -25,6 +25,10 @@ resource "aws_lb_target_group" "nlb" {
   protocol    = "TCP"
   vpc_id      = var.nlb_vpc
   target_type = "ip"
+
+  lifecycle {
+      create_before_destroy = true
+  }
 }
 
 resource "aws_lb_listener" "nlb" {
