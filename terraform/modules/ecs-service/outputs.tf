@@ -9,3 +9,7 @@ output "cluster_name" {
 output "service_name" {
   value = aws_ecs_service.app-service.name
 }
+
+output "task_role_name" {
+  value = aws_iam_role.task_execution_role.name
+}
