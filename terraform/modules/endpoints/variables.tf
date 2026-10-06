@@ -27,3 +27,8 @@ variable "account_id" {
   description = "AWS caller identity account ID"
   type        = string
 }
+
+variable "task_role" {
+  description = "ECS task role name"
+  type        = string
+}
