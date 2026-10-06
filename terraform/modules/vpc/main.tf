@@ -22,7 +22,7 @@ resource "aws_subnet" "public_a" {
 resource "aws_subnet" "public_b" {
   vpc_id                          = aws_vpc.vpc.id
 
-  cidr_block                      = var.public_subnet_a
+  cidr_block                      = var.public_subnet_b
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.vpc.ipv6_cidr_block, 8, 2)
   assign_ipv6_address_on_creation = true
 
