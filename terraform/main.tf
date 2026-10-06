@@ -19,8 +19,8 @@ module "banking_vpc" {
   private_subnet_a = "10.10.101.0/24"
   private_subnet_b = "10.10.102.0/24"
 
-  subnet_az_a      = "us-east-1a"
-  subnet_az_b      = "us-east-1b"
+  subnet_az_a      = "us-east-2a"
+  subnet_az_b      = "us-east-2b"
 }
 
 module "payments_vpc" {
@@ -34,8 +34,8 @@ module "payments_vpc" {
   private_subnet_a = "10.20.101.0/24"
   private_subnet_b = "10.20.102.0/24"
 
-  subnet_az_a      = "us-east-1a"
-  subnet_az_b      = "us-east-1b"
+  subnet_az_a      = "us-east-2a"
+  subnet_az_b      = "us-east-2b"
 }
 
 module "banking_vpc_endpoints" {
