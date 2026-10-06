@@ -20,10 +20,11 @@ resource "aws_vpc_security_group_ingress_rule" "allow_vpc" {
 }
 
 resource "aws_lb_target_group" "nlb" {
-  name     = var.nlb_tg_name
-  port     = var.provider_port
-  protocol = "TCP"
-  vpc_id   = var.nlb_vpc
+  name        = var.nlb_tg_name
+  port        = var.provider_port
+  protocol    = "TCP"
+  vpc_id      = var.nlb_vpc
+  target_type = "ip"
 }
 
 resource "aws_lb_listener" "nlb" {
