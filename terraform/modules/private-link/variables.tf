@@ -43,8 +43,8 @@ variable "provider_port" {
   type        = string
 }
 
-variable "nlb_tg_name" {
-  description = "Name of the NLB target group"
+variable "nlb_tg_prefix" {
+  description = "Name prefix of the NLB target group"
   type        = string
 }
 
