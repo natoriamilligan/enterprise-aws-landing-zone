@@ -83,7 +83,7 @@ module "banking_ecs_service" {
   app_service_name             = "banking-service"
   private_subnet_a             = module.banking_vpc.private_subnet_a
   private_subnet_b             = module.banking_vpc.private_subnet_b
-  lb_target_group_arn          = aws_lb_listener.alb_listener.arn
+  lb_target_group_arn          = aws_lb.alb.arn
   environment_variables        = [
     {
       name  = "PAYMENTS_URL"
