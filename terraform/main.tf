@@ -47,6 +47,7 @@ module "banking_vpc_endpoints" {
   private_subnet_b       = module.banking_vpc.private_subnet_b
   ecs_security_group     = module.banking_ecs_service.sg_id
   account_id             = data.aws_caller_identity.current.account_id
+  task_role              = module.banking_ecs_service.task_role_name
 }
 
 module "payments_vpc_endpoints" {
@@ -58,6 +59,7 @@ module "payments_vpc_endpoints" {
   private_subnet_b       = module.payments_vpc.private_subnet_b
   ecs_security_group     = module.payments_ecs_service.sg_id
   account_id             = data.aws_caller_identity.current.account_id
+  task_role              = module.payments_ecs_service.task_role_name
 }
 
 module "banking_ecs_service" {
