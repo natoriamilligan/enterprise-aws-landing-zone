@@ -27,5 +27,5 @@ output "endpoint_dns_name" {
 }
 
 output "nlb_target_group_arn" {
-  value = aws_lb.nlb.arn
+  value = aws_lb_target_group.nlb.arn
 }
