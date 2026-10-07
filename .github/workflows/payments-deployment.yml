@@ -1,6 +1,9 @@
 name: Deploy Payments App
 
 on:
+  push:
+    paths:
+      - "apps/payments/**"
   workflow_dispatch:
 
 permissions:
