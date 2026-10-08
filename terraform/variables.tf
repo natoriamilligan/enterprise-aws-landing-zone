@@ -9,3 +9,8 @@ variable "region" {
   type        = string
   default     = "us-east-2"
 }
+
+variable "alb_tg_prefix" {
+  description = "Prefix name for ALB"
+  type        = string
+}
