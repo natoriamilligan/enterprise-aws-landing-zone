@@ -8,3 +8,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
     }
   }
 }
+
+data "aws_prefix_list" "s3" {
+  name = "com.amazonaws.us-east-2.s3"
+}
