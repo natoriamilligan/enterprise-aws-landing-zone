@@ -8,8 +8,8 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [
-    module.banking_vpc.private_subnet_a,
-    module.banking_vpc.private_subnet_b
+    module.banking_vpc.public_subnet_a,
+    module.banking_vpc.public_subnet_b
   ]
 }
 
@@ -29,17 +29,6 @@ resource "aws_lb_listener" "alb_listener_http" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "80"
   protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.alb_tg.arn
-  }
-}
-
-resource "aws_lb_listener" "alb_listener_https" {
-  load_balancer_arn = aws_lb.alb.arn
-  port              = "443"
-  protocol          = "HTTPS"
 
   default_action {
     type             = "forward"
