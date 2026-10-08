@@ -14,7 +14,7 @@ resource "aws_lb" "alb" {
 }
 
 resource "aws_lb_target_group" "alb_tg" {
-  name        = "alb-tg"
+  name_prefix = var.alb_tg_prefix
   port        = "8000"
   protocol    = "HTTP"
   target_type = "ip"
