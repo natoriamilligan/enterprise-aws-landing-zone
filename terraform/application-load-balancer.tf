@@ -15,8 +15,8 @@ resource "aws_lb" "alb" {
 
 resource "aws_lb_target_group" "alb_tg" {
   name        = "alb-tg"
-  port        = 443
-  protocol    = "HTTPS"
+  port        = "8000"
+  protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = module.banking_vpc.vpc_id
 
