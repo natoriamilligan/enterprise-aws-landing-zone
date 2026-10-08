@@ -23,6 +23,10 @@ resource "aws_lb_target_group" "alb_tg" {
   health_check {
     path        = "/"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_lb_listener" "alb_listener_http" {
