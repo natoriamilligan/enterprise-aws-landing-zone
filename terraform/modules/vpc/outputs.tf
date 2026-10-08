@@ -14,6 +14,14 @@ output "private_subnet_b" {
   value = aws_subnet.private_b.id
 }
 
+output "public_subnet_a" {
+  value = aws_subnet.public_a.id
+}
+
+output "public_subnet_b" {
+  value = aws_subnet.public_b.id
+}
+
 output "cidr_block" {
   value = aws_vpc.vpc.cidr_block
 }
