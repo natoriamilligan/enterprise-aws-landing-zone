@@ -21,7 +21,7 @@ resource "aws_lb_target_group" "alb_tg" {
   vpc_id      = module.banking_vpc.vpc_id
 
   health_check {
-    path        = "/home"
+    path        = "/"
   }
 }
 
