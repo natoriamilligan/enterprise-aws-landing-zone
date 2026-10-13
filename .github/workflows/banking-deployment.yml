@@ -1,6 +1,9 @@
 name: Deploy Banking App
 
 on:
+  push:
+    paths:
+      - "apps/banking/**"
   workflow_dispatch:
 
 permissions:
