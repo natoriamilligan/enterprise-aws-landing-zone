@@ -76,10 +76,10 @@ This design streamlines the process for modifying, assigning, and removing permi
 | Network design | Complete |
 | Security, Observability & Audit design | Complete |
 | Access flow design | Complete |
-| Terraform modules | In progress |
+| Terraform modules | Complete |
 | Detailed Architecture Documentation | Complete |
-| PrivateLink validation | Planned |
-| CI/CD pipeline | Planned |
+| PrivateLink validation | Complete |
+| CI/CD pipeline | Complete |
 
 ## Contact
 
